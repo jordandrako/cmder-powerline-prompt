@@ -1,4 +1,4 @@
--- Source: https://github.com/AmrEldib/cmder-powerline-prompt 
+-- Source: https://github.com/jordandrako/cmder-powerline-prompt
 
 --- promptValue is whether the displayed prompt is the full path or only the folder name
  -- Use:
@@ -10,24 +10,25 @@ local promptValueFolder = "folder"
 local promptValue = promptValueFull
 
 local function get_folder_name(path)
-	local reversePath = string.reverse(path)
-	local slashIndex = string.find(reversePath, "\\")
-	return string.sub(path, string.len(path) - slashIndex + 2)
+        local reversePath = string.reverse(path)
+        local slashIndex = string.find(reversePath, "\\")
+        return string.sub(path, string.len(path) - slashIndex + 2)
 end
 
--- Resets the prompt 
+local crossSymbol = "✝"
+local arrowSymbol = ""
+local branchSymbol = ""
+
+-- Resets the prompt
 function lambda_prompt_filter()
     cwd = clink.get_cwd()
-	if promptValue == promptValueFolder then
-		cwd =  get_folder_name(cwd)
-	end
-    prompt = "\x1b[37;44m{cwd} {git}{hg}\n\x1b[1;30;40m{lamb} \x1b[0m"
+        if promptValue == promptValueFolder then
+                cwd =  get_folder_name(cwd)
+        end
+    prompt = " \x1b[90m"..crossSymbol.." \x1b[30;44m"..arrowSymbol.."\x1b[30;44m {cwd} {git}{hg}\n\x1b[1;30;40m{lamb} \x1b[0m"
     new_value = string.gsub(prompt, "{cwd}", cwd)
     clink.prompt.value = string.gsub(new_value, "{lamb}", "λ")
 end
-
-local arrowSymbol = ""
-local branchSymbol = ""
 
 --- copied from clink.lua
  -- Resolves closest directory location for specified directory.
